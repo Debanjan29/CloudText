@@ -1,0 +1,58 @@
+{% extends "base1.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+      Save
+    {% endblock title %}
+
+    {% block active %}
+    active
+  {% endblock active %}
+    <link rel="stylesheet" href="{% static 'save1.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+{% block body %}
+  
+<body>
+    <style>
+        /* body{
+            background-color: var(--bs-code-color);
+        } */
+        #textarea{
+    background-color: black;
+    color: #f5f6f8;
+}
+.content{
+    background-color: black;
+    color: #f3f9ff;
+
+}
+    </style>
+    <div class="body1">
+    <div class="container">
+        <form action="/save/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="content"><div class="textt my-2"><strong> <div class="textt">Enter your text or codes here :</div></strong></div></label>
+                <!-- <div class="border">-->
+                     <textarea class="form-control form-rounded  text-white bg-black" name="content" id="content" cols="30" rows="9" placeholder="Ready to store your text or code? Just tap 'Upload' and secure your unique code with a smile!" required></textarea></div> 
+                     <!-- name is important to extract the post request data -->
+              <!-- </div> -->
+              <button type="submit" class="btn btn-success my-2">Upload </button><br>
+        </form>
+        <div class="re my-5">
+            <p><i class="fa-solid fa-bell fa-fade" style="color: #f20727;"></i> Ready to store your text or code? Just tap 'Upload' and secure your unique code with a smile :)</p>
+            <p><i class="fa-solid fa-bell fa-fade" style="color: #f20727;"></i>  Have a Code?! Retrive your Text by Entering your Unique Code in the <strong>Search <i class="fa-brands fa-searchengin"></i></strong> space above!!</p>
+        </div>
+    </div>
+
+    </div>
+</body>
+
+{% endblock body %}
+</html>

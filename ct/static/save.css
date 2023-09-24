@@ -1,0 +1,68 @@
+.body1{
+    background-color: rgb(150 164 223);
+    height:41rem;
+    /* rgb(150 164 223); */
+    /* background-color: rgb(223, 150, 152); */
+}
+.body3{
+    background-color: azure;
+    height: 41rem;
+}
+body{
+    background-color: rgb(74, 7, 8);
+}
+.textt{
+    color: rgb(214, 4, 4);
+    text-decoration: dotted;
+}
+.form-control{
+    border-style: dotted;
+    border-color: red;
+}
+.bord{
+    border-style: dotted;
+    border-color: red;
+    background-color: black;
+    color: #f6f8f9;
+}
+#textarea{
+    background-color: black;
+    color: #f5f6f8;
+}
+.content{
+    background-color: black;
+    color: #f3f9ff;
+}
+.bord2{
+    border-style: dotted;
+    border-color: red;
+    background-color: black;
+}
+.c2{
+    padding-left: 50rem;
+    text-decoration: solid;
+    color: brown;
+}
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: initial;
+}
+ /* Apply styles for the copy button */
+/* #copyBtn {
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+        }
+
+#copyBtn:hover{
+    background-color: #041305;
+    transition-delay: 1s;
+} */

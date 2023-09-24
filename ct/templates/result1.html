@@ -1,0 +1,65 @@
+{% extends "base1.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+      Result
+    {% endblock title %}
+    {% block active %}
+    active
+  {% endblock active %}
+    <link rel="stylesheet" href="{% static 'save.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/androidstudio.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.3.1/lib/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+{% block body %}
+  
+<body>
+    <style>
+        /* body{
+            background-color: var(--bs-code-color);
+        } */
+    </style>
+    <div class="body1">
+    <div class="container">
+            <div class="form-group">
+                <label for="content"><div class="textt my-2"><strong> <div class="textt">Here it is: </div></strong></div></label>
+                <div class="bord"><textarea class="form-control text-white bg-black" name="content" id="content" cols="30" rows="15" readonly required>{{msgg.msg}}</textarea></div> <!--name is important to extract the post request data-->
+                <button type="button" id ="copyBtn" class="btn btn-success"  onclick="copyToClipboard()">Copy to Clipboard</button>
+                
+                <i class="fa-solid fa-copy fa-beat fa-xl"></i>
+                <p>Want to save something!
+                    <a href="/" button type="submit" class="btn btn-primary my-2">Click Here</a>
+                  </p>
+            </div>
+            
+            <script>
+        // Function to copy the textarea content to the clipboard
+        function copyToClipboard() {
+            const textarea = document.getElementById('content');
+            textarea.select();
+            document.execCommand('copy');
+            textarea.classList.add("active");
+            window.getSelection().removeAllRanges();
+            document.getElementById('copyBtn').innerText = 'Copied!'; // Change button text to "Copied!
+            setTimeout(function(){
+                //document.getElementById('copyBtn').innerText = 'Copy to Clipboard';
+                copyText.classList.remove("active");
+            },2500);
+            // alert('Text copied to clipboard!');
+        }
+    </script>
+
+   </div>
+
+    </div>
+    
+</body>
+
+{% endblock body %}
+</html>

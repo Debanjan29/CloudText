@@ -1,0 +1,81 @@
+{% extends "base1.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block aboutt %}
+      active
+    {% endblock aboutt %}
+    {% block title %}
+    About CloudText
+  {% endblock title %}
+  <link rel="stylesheet" href="{% static 'about.css' %}">
+</head>
+
+{% block body %}
+<style>
+    body{
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fb2727;
+    }
+    .container{
+        max-width: 100rem;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: rgb(150 164 223);
+    box-shadow: 1 1 1rem rgba(0, 0, 0, 0.1);
+    }
+    header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    color: #333333;
+    font-size: 2.5rem;
+}
+
+.intro {
+    margin-bottom: 2.5rem;
+    color: #150202;
+}
+
+.intro p, .intro ol {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.125rem;
+    line-height: 1.5;
+}
+</style>
+    <div class="container my-4">
+        <header>
+            <h1>Welcome to CloudText</h1>
+        </header>
+        <section class="intro">
+            <p>CloudText is a web app that allows you to share codes and texts without the need for logging in or signing up. It's simple:</p>
+            <ol>
+                <li>Paste your text in the textarea below.</li>
+                <li>Click the "Upload" button to get a 4-character code.</li>
+                <li>Store this code safely.</li>
+            </ol>
+            <p>To retrieve your data:</p>
+            <ol>
+                <li>Enter the code in the search box.</li>
+                <li>Your data will be displayed.</li>
+            </ol>
+            <p>Your shared data will be stored for a minimum of 7 days.</p>
+            <p><strong>Connect with the Creator!! :</strong> &nbsp<a href="https://www.linkedin.com/in/debanjan-bhattacharjee-939400224" class="fa-brands fa-linkedin fa-xl" style="color: #000000;" target="_blank"></a> &nbsp<a href="https://github.com/Debanjan29" class="fa-brands fa-github fa-xl" style="color: #040e20;" target="_blank"></a> &nbsp<a href="https://www.instagram.com/db_0303"target="_blank"><i class="fa-brands fa-instagram fa-xl" style="color: #000000;"></i></a>
+            &nbsp<a href="https://www.facebook.com/profile.php?id=100076618609412" target="_blank"><i class="fa-brands fa-facebook fa-xl" style="color: #011332;"></i></a></p>
+            
+        </section>
+
+    </div>
+
+
+{% endblock body %}
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script> -->
+</html>
