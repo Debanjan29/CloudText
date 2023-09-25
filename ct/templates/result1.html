@@ -44,13 +44,14 @@ body{
 }
 .form-control{
     border-style: dotted;
-    border-color: red;
+    border-color: #242451;
 }
 .bord{
     border-style: dotted;
-    border-color: red;
+    border-color: #242451;
     background-color: black;
     color: #f6f8f9;
+    margin-bottom: 2vh;
 }
 #textarea{
     background-color: black;
@@ -85,7 +86,8 @@ a.button {
             <div class="form-group">
                 <label for="content"><div class="textt my-2"><strong> <div class="textt">Here it is: </div></strong></div></label>
                 <div class="bord"><textarea class="form-control text-white bg-black" name="content" id="content" cols="30" rows="15" readonly required>{{msgg.msg}}</textarea></div> <!--name is important to extract the post request data-->
-                <button type="button" id ="copyBtn" class="btn btn-success py-2"  onclick="copyToClipboard()">Copy to Clipboard</button>
+
+                <button type="button" id ="copyBtn" class="btn btn-success my-2"  onclick="copyToClipboard()">Copy to Clipboard</button>
                 
                 <i class="fa-solid fa-copy fa-beat fa-xl"></i>
                 <p>Want to save something!
