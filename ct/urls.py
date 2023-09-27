@@ -6,5 +6,5 @@ urlpatterns = [
     path("save/",views.save,name="save"),
     path("get/",views.get,name="get"),
     path("result/",views.get,name="result"),
-    path("About/",views.about,name="about"),
+    path("about/",views.about,name="about"),
 ]
