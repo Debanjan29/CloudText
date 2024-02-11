@@ -56,6 +56,7 @@ def save(request):
 def get(request):#search
         if request.method=="POST":
             uid=request.POST["query"]
+            uid=uid.lower()#Converting input into LowerCase
             print(uid)
             val2=1
             param={ 'val2':val2}
