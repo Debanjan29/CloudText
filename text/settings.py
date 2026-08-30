@@ -92,6 +92,7 @@ CORS_ALLOW_ALL_ORIGINS:True
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# === 2026 update! ===
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -99,20 +100,19 @@ DATABASES = {
     }
 }
 
-database_url=os.environ.get("DATABASE_URL")
+database_url = os.environ.get("DATABASE_URL")
+if database_url:
+    DATABASES["default"] = dj_database_url.parse(database_url, conn_max_age=600, conn_health_checks=True)
 
-#DATABASES["default"]=dj_database_url.parse("postgres://cloudtextdb_user:M93Ny4dxR9mCFKsF4CpsfwPxBty6NpoW@dpg-cjlfcq8cfp5c738g2u00-a.oregon-postgres.render.com/cloudtextdb")
-
-DATABASES["default"]=dj_database_url.parse(database_url)
-
-# postgres://cloudtextdb_user:M93Ny4dxR9mCFKsF4CpsfwPxBty6NpoW@dpg-cjlfcq8cfp5c738g2u00-a.oregon-postgres.render.com/cloudtextdb
-
-DATABASES = {
-    'default': dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True
-    ),
-}
+# Old legacy database setting commented out:
+# DATABASES["default"]=dj_database_url.parse(database_url)
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         conn_max_age=600,
+#         conn_health_checks=True
+#     ),
+# }
+# === 2026 update! ===
 
 # database_url=os.environ.get("DATABASE_URL")
 
@@ -154,7 +154,12 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS= (os.path.join(BASE_DIR,'static'),)
+# === 2026 update! ===
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'ct', 'static'),
+    os.path.join(BASE_DIR, 'static'),
+)
+# === 2026 update! ===
 
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
@@ -164,5 +169,12 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# === SECURITY MEASURES 2026: HTTP Security Headers ===
+# Explanation: Protects the application from Cross-Site Scripting (XSS), MIME-type sniffing, and Clickjacking iframe embedding attacks across all browsers.
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+# === SECURITY MEASURES 2026 ===
 
 #NEON db

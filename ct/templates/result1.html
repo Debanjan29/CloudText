@@ -1,128 +1,154 @@
 {% extends "base1.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block title %}
-      Result
-    {% endblock title %}
-    {% block active %}
-    active
-  {% endblock active %}
-    <link rel="stylesheet" href="{% static 'save.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/androidstudio.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.3.1/lib/highlight.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
+
+{% block title %}Result - CloudText{% endblock title %}
+
+{% block active %}active{% endblock active %}
 
 {% block body %}
-  
-<body>
-    <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NHPRCZ45"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    
-    <style>
-        /* body{
-            background-color: var(--bs-code-color);
-        } */
-        .body1{
-    background-color: rgb(150 164 223);
-    height:41rem;
-    height:92.5vh;
-    /* rgb(150 164 223); */
-    /* background-color: rgb(223, 150, 152); */
-}
-.body3{
-    background-color: azure;
-    height: 41rem;
-}
-body{
-    background-color: rgb(74, 7, 8);
-}
-.textt{
-    color: rgb(214, 4, 4);
-    text-decoration: dotted;
-}
-.form-control{
-    border-style: dotted;
-    border-color: #242451;
-}
-.bord{
-    border-style: dotted;
-    border-color: #242451;
-    background-color: black;
-    color: #f6f8f9;
-    margin-bottom: 2vh;
-}
-#textarea{
-    background-color: black;
-    color: #f5f6f8;
-}
-.content{
-    background-color: black;
-    color: #f3f9ff;
-}
-.bord2{
-    border-style: dotted;
-    border-color: #242451;
-    background-color: black;
-}
-.c2{
-    padding-left: 50rem;
-    text-decoration: solid;
-    color: brown;
-}
-a.button {
-    -webkit-appearance: button;
-    -moz-appearance: button;
-    appearance: button;
+<!-- === 2026 update! Option 2: Vercel / Apple Minimalist Theme UI === -->
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
 
-    text-decoration: none;
-    color: initial;
-}
-    </style>
+      <div class="card bg-dark text-white shadow-sm border-secondary">
+        <div class="card-header bg-black py-3 d-flex justify-content-between align-items-center">
+          <span class="fs-6 font-monospace text-white fw-bold"><i class="fa-solid fa-box-archive me-2 text-success"></i>Retrieved Item: <code class="text-emerald fs-6 ms-1">{{ msgg.id }}</code></span>
+          <span class="text-secondary extra-small font-monospace">{{ msgg.date|date:"M d, Y H:i" }}</span>
+        </div>
+        <div class="card-body p-4">
 
-    <div class="body1">
-    <div class="container">
-            <div class="form-group">
-                <label for="content"><div class="textt my-2"><strong> <div class="textt">Here it is: </div></strong></div></label>
-                <div class="bord"><textarea class="form-control text-white bg-black" name="content" id="content" cols="30" rows="15" readonly required>{{msgg.msg}}</textarea></div> <!--name is important to extract the post request data-->
+          {% if is_file %}
+            <!-- File / Folder Retrieval View -->
+            <div class="p-4 text-center rounded-3 bg-black border border-secondary">
+              <div class="mb-3">
+                {% if is_image %}
+                  <i class="fa-solid fa-file-image fs-1 text-emerald"></i>
+                {% else %}
+                  <i class="fa-solid fa-file-zipper fs-1 text-warning"></i>
+                {% endif %}
+              </div>
 
-                <button type="button" id ="copyBtn" class="btn btn-success my-2"  onclick="copyToClipboard()">Copy to Clipboard</button>
-                
-                <i class="fa-solid fa-copy fa-beat fa-xl"></i>
-                <p>Want to save something!
-                    <a href="/" button type="submit" class="btn btn-primary my-2">Click Here</a>
-                  </p>
+              <h2 class="fs-5 text-white font-monospace mb-2 fw-semibold">{{ msgg.file_name }}</h2>
+              <div class="d-flex justify-content-center gap-2 mb-3">
+                <span class="badge bg-zinc text-white border border-secondary font-monospace">{{ formatted_size }}</span>
+                <span class="badge bg-zinc text-secondary border border-secondary font-monospace">{{ msgg.file_type|default:"Binary File" }}</span>
+              </div>
+
+              {% if is_image %}
+                <!-- 100% Original Quality Picture Inline Preview -->
+                <div class="my-4 text-center border border-secondary rounded p-3 bg-dark">
+                  <span class="text-secondary extra-small font-monospace d-block mb-2">IMAGE PREVIEW (100% ORIGINAL QUALITY)</span>
+                  <img src="data:{{ msgg.file_type }};base64,{{ image_b64 }}" 
+                       class="img-fluid rounded border border-secondary shadow-sm" 
+                       alt="Retrieved Image Preview" 
+                       style="max-height: 480px; object-fit: contain;">
+                </div>
+              {% endif %}
+
+              {% if image_gallery %}
+                <!-- Multi-Picture Gallery Preview -->
+                <div class="my-4 text-start border border-secondary rounded p-3 bg-dark">
+                  <span class="text-secondary extra-small font-monospace d-block mb-3">PICTURE GALLERY ({{ image_gallery|length }} IMAGES):</span>
+                  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    {% for img in image_gallery %}
+                      <div class="col">
+                        <div class="card bg-black border-secondary h-100 p-2 text-center shadow-sm">
+                          <img src="data:{{ img.mime }};base64,{{ img.b64 }}" class="card-img-top rounded bg-dark border border-secondary" alt="{{ img.name }}" style="height: 160px; object-fit: contain;">
+                          <div class="card-body p-2">
+                            <small class="text-secondary font-monospace text-truncate d-block" title="{{ img.name }}">{{ img.name }}</small>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
+
+              {% if zip_file_list %}
+                <!-- Zip Package File List Explorer -->
+                <div class="my-4 text-start border border-secondary rounded p-3 bg-dark">
+                  <span class="text-secondary extra-small font-monospace d-block mb-2">FILES IN PACKAGE ({{ zip_file_list|length }} ITEMS):</span>
+                  <ul class="list-group list-group-flush bg-black rounded border border-secondary font-monospace small">
+                    {% for f in zip_file_list %}
+                      <li class="list-group-item bg-black text-light border-secondary d-flex justify-content-between align-items-center py-2">
+                        <span><i class="fa-solid fa-file me-2 text-secondary"></i>{{ f.name }}</span>
+                        <span class="badge bg-zinc text-secondary">{{ f.size }}</span>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+
+              <div class="mt-4">
+                <!-- Explicit Download Button (No Auto-Download) -->
+                <a href="/download/{{ msgg.id }}/" 
+                   class="btn btn-emerald btn-lg px-4 py-2 fs-6 fw-semibold shadow-sm" 
+                   role="button"
+                   aria-label="Download {{ msgg.file_name }}">
+                  Download Package (.zip)
+                </a>
+              </div>
             </div>
-            
-            <script>
-        // Function to copy the textarea content to the clipboard
-        function copyToClipboard() {
-            const textarea = document.getElementById('content');
-            textarea.select();
-            document.execCommand('copy');
-            textarea.classList.add("active");
-            window.getSelection().removeAllRanges();
-            document.getElementById('copyBtn').innerText = 'Copied!'; // Change button text to "Copied!
-            setTimeout(function(){
-                //document.getElementById('copyBtn').innerText = 'Copy to Clipboard';
-                copyText.classList.remove("active");
-            },2500);
-            // alert('Text copied to clipboard!');
-        }
-    </script>
 
-   </div>
+            {% if msgg.msg and msgg.msg != msgg.file_name %}
+              <!-- Accompanying Text / Code Snippet -->
+              <div class="mt-4 text-start">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="text-secondary extra-small font-monospace">ACCOMPANYING NOTE:</span>
+                  <button type="button" id="copyBtn" class="btn btn-sm btn-emerald font-monospace" onclick="copyToClipboard()">
+                    Copy Text
+                  </button>
+                </div>
+                <div class="border border-secondary rounded bg-black p-3 mb-3">
+                  <pre class="m-0"><code id="content" class="hljs" style="font-family: monospace; white-space: pre-wrap; word-break: break-all;">{{ msgg.msg }}</code></pre>
+                </div>
+              </div>
+            {% endif %}
+          {% else %}
+            <!-- Text / Code Retrieval View -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="badge bg-zinc text-white border border-secondary font-monospace">Code / Text</span>
+              <button type="button" id="copyBtn" class="btn btn-sm btn-emerald font-monospace" onclick="copyToClipboard()">
+                Copy Code
+              </button>
+            </div>
+
+            <div class="border border-secondary rounded bg-black p-3 mb-3">
+              <pre class="m-0"><code id="content" class="hljs" style="font-family: monospace; white-space: pre-wrap; word-break: break-all;">{{ msgg.msg }}</code></pre>
+            </div>
+          {% endif %}
+
+          <div class="d-flex justify-content-between align-items-center mt-4">
+            <a href="/" class="btn btn-sm btn-outline-zinc px-3"><i class="fa-solid fa-plus me-1"></i> Upload New</a>
+            <span class="text-secondary extra-small font-monospace">Text: Permanent &bull; Files: 30 Days</span>
+          </div>
+
+        </div>
+      </div>
 
     </div>
-    
-</body>
+  </div>
+</div>
 
+<script>
+  function copyToClipboard() {
+    const codeElement = document.getElementById('content');
+    const textToCopy = codeElement.innerText || codeElement.textContent;
+    
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      const btn = document.getElementById('copyBtn');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = 'Copied!';
+      btn.classList.remove('btn-emerald');
+      btn.classList.add('btn-success', 'text-white');
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('btn-success', 'text-white');
+        btn.classList.add('btn-emerald');
+      }, 2000);
+    });
+  }
+</script>
+<!-- === 2026 update! === -->
 {% endblock body %}
-</html>
