@@ -14,9 +14,7 @@
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block title %}
-      Save
-    {% endblock title %}
+    {% block title %}Upload - CloudText{% endblock title %}
 
     {% block active %}
     active
@@ -27,121 +25,142 @@
 </head>
 
 {% block body %}
-  
-<body>
-    <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NHPRCZ45"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+<!-- === 2026 update! Option 2: Vercel / Apple Minimalist Theme UI === -->
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
 
-    
-    <style>
-        /* body{
-            background-color: var(--bs-code-color);
-        } */
-        .body1{
-    background-color: rgb(150 164 223);
-    height:41rem;
-    height:92.5vh;
-    /* rgb(150 164 223); */
-    /* background-color: rgb(223, 150, 152); */
-}
-.body3{
-    background-color: azure;
-    height: 41rem;
-}
-body{
-    background-color: rgb(74, 7, 8);
-}
-.textt{
-    color: rgb(214, 4, 4);
-    text-decoration: dotted;
-}
-.form-control{
-    border-style: dotted;
-    border-color: red;
-}
-.border{
-    border-style: dotted;
-    border-color: red;
-    background-color: black;
-    color: #faf4f4;
-}
-#textarea{
-    background-color: black;
-    color: #a9b7c6;
-}
-.content{
-    background-color: black;
-    color: #ffffff;
-}
-.bord2{
-    border-style: dotted;
-    border-color: red;
-    background-color: black;
-}
-.c2{
-    padding-left: 50rem;
-    text-decoration: solid;
-    color: brown;
-}
-a.button {
-    -webkit-appearance: button;
-    -moz-appearance: button;
-    appearance: button;
-
-    text-decoration: none;
-    color: initial;
-}
- /* Apply styles for the copy button */
-#copyBtn {
-     margin-top: 10px;
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-.re{
-    color: rgb(6, 0, 0);
-}
-
-textarea::placeholder {
-    color: #ebcccc; /* Change this to your desired color */
-    opacity: 1;
-}
-    #textarea{
-    background-color: black;
-    color: #f5f6f8;
-}
-.content{
-    background-color: black;
-    color: #f3f9ff;
-
-}
-    </style>
-    <div class="body1">
-    <div class="container">
-        <form action="/save/" method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="content"><div class="textt my-2"><strong> <div class="textt">Enter your text or codes here :</div></strong></div></label>
-                <!-- <div class="border">-->
-                     <textarea class="form-control form-rounded  text-white bg-black" name="content" id="content" cols="30" rows="9" placeholder="Ready to store your text or code? Just tap 'Upload' and secure your unique code with a smile!" required style="height: 358px;"></textarea></div> 
-                     <!-- name is important to extract the post request data -->
-              <!-- </div> -->
-              <button type="submit" class="btn btn-success my-2">Upload </button><br>
-        </form>
-        <div class="re my-5">
-            <p><i class="fa-solid fa-bell fa-fade" style="color: #f20727;"></i> Ready to store your text or code? Just tap 'Upload' and secure your 4 digit unique code with a smile :)</p>
-            <p><i class="fa-solid fa-bell fa-fade" style="color: #f20727;"></i>  Have your 4-digit Unique Code?! Retrive your Data by Entering the Unique Code in the <strong>Search <i class="fa-brands fa-searchengin"></i></strong> space above!!</p>
+      <div class="card bg-dark text-white shadow-sm border-secondary">
+        <div class="card-header bg-black py-3 d-flex justify-content-between align-items-center">
+          <span class="fs-6 font-monospace text-white fw-bold"><i class="fa-solid fa-arrow-up-from-bracket me-2 text-success"></i>Upload Data</span>
+          <span class="badge bg-zinc text-white-50 border border-secondary font-monospace fw-normal">Anonymous &bull; Encrypted</span>
         </div>
-    </div>
+        <div class="card-body p-4">
+
+          <form action="/save/" method="post" enctype="multipart/form-data" id="uploadForm">
+            {% csrf_token %}
+
+            <!-- Minimalist Drop Zone -->
+            <div class="drop-zone p-4 mb-4 text-center position-relative" 
+                 id="dropZone" 
+                 tabindex="0" 
+                 role="region" 
+                 aria-label="File and Folder Drag and Drop Area"
+                 style="cursor: pointer;">
+              
+              <div class="mb-2">
+                <i class="fa-solid fa-cloud-arrow-up fs-3 text-secondary"></i>
+              </div>
+              <h2 class="fs-6 text-white mb-1 fw-semibold">Drop files or folder here</h2>
+              <p class="text-secondary small mb-3">Code, Images (100% quality), PDFs, ZIPs, or folders</p>
+              
+              <div class="d-flex justify-content-center gap-2">
+                <button type="button" class="btn btn-sm btn-outline-zinc px-3 py-1" onclick="document.getElementById('fileInput').click()">
+                  Select Files
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-zinc px-3 py-1" onclick="document.getElementById('folderInput').click()">
+                  Select Folder
+                </button>
+              </div>
+
+              <!-- Hidden file inputs -->
+              <input type="file" name="file_upload" id="fileInput" class="d-none" multiple onchange="handleFileSelect(this.files)">
+              <input type="file" name="file_upload" id="folderInput" class="d-none" webkitdirectory directory multiple onchange="handleFileSelect(this.files)">
+
+              <!-- Dynamic file status / screen reader live region -->
+              <div id="fileStatus" class="mt-3 text-start small d-none" aria-live="polite"></div>
+            </div>
+
+            <!-- Text / Code input area -->
+            <div class="form-group mb-4">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="content" class="form-label text-secondary small font-monospace mb-0 fw-semibold">
+                  TEXT / CODE SNIPPET:
+                </label>
+                <span class="text-secondary extra-small font-monospace">Syntax Auto-Detected</span>
+              </div>
+              <textarea class="form-control font-monospace p-3 fs-6" 
+                        name="content" 
+                        id="content" 
+                        rows="7" 
+                        placeholder="Hello, Paste your text/code here"
+                        aria-label="Enter text or code to save"
+                        style="min-height: 180px; resize: vertical;"></textarea>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-emerald btn-lg py-2 fs-6 fw-semibold shadow-sm">
+                Upload & Generate Code
+              </button>
+            </div>
+          </form>
+
+        </div>
+        <div class="card-footer py-3">
+          <div class="row text-secondary small">
+            <div class="col-md-6 mb-1 mb-md-0">
+              <i class="fa-solid fa-circle-info me-1"></i> Enter generated 4-character code in top bar to retrieve.
+            </div>
+            <div class="col-md-6 text-md-end">
+              <i class="fa-solid fa-shield-halved text-success me-1"></i> Text: Permanent &bull; Files: 30 Days
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
-</body>
+  </div>
+</div>
+<!-- === 2026 update! === -->
 
+<script>
+  // Drag and Drop JavaScript Handler
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  const fileStatus = document.getElementById('fileStatus');
+
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, preventDefaults, false);
+  });
+
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => dropZone.classList.add('border-warning'), false);
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => dropZone.classList.remove('border-warning'), false);
+  });
+
+  dropZone.addEventListener('drop', handleDrop, false);
+
+  function handleDrop(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    fileInput.files = files;
+    handleFileSelect(files);
+  }
+
+  function handleFileSelect(files) {
+    if (!files || files.length === 0) return;
+    fileStatus.classList.remove('d-none');
+    let summary = `<div class="alert alert-info py-2 px-3 mb-0">
+      <i class="fa-solid fa-paperclip me-2"></i><strong>${files.length} file(s) selected:</strong> `;
+    
+    let fileNames = [];
+    for (let i = 0; i < Math.min(files.length, 5); i++) {
+      fileNames.push(files[i].name);
+    }
+    summary += fileNames.join(', ');
+    if (files.length > 5) summary += `, and ${files.length - 5} more...`;
+    summary += `</div>`;
+    fileStatus.innerHTML = summary;
+  }
+</script>
+<!-- === 2026 update! === -->
 {% endblock body %}
 </html>

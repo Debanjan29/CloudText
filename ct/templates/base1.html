@@ -12,109 +12,256 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}   {% endblock title %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/androidstudio.min.css">
+    <title>{% block title %}CloudText{% endblock title %}</title>
+
+    <!-- === 2026 update! === -->
+    <!-- Modern Bootstrap 5.3 & FontAwesome 6 & Highlight.js Dark Theme -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{% static 'save.css' %}">
     <link rel="stylesheet" href="{% static 'save1.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+      /* === 2026 update! Option 2: Vercel / Apple Minimalist Theme === */
+      :root {
+        --bg-main: #000000;
+        --card-bg: #0a0a0a;
+        --card-header: #121212;
+        --editor-bg: #050505;
+        --accent-emerald: #10b981;
+        --accent-emerald-hover: #059669;
+        --text-primary: #ffffff;
+        --text-muted: #a1a1aa;
+        --border-color: #27272a;
+      }
+      body {
+        background-color: var(--bg-main) !important;
+        color: var(--text-primary) !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        letter-spacing: -0.2px;
+      }
+      .navbar {
+        background-color: rgba(0, 0, 0, 0.85) !important;
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border-color);
+      }
+      .navbar-brand {
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: var(--text-primary) !important;
+      }
+      .card {
+        background-color: var(--card-bg) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 12px !important;
+      }
+      .card-header {
+        background-color: var(--card-header) !important;
+        border-bottom: 1px solid var(--border-color) !important;
+        border-top-left-radius: 12px !important;
+        border-top-right-radius: 12px !important;
+      }
+      .card-footer {
+        background-color: var(--card-header) !important;
+        border-top: 1px solid var(--border-color) !important;
+        border-bottom-left-radius: 12px !important;
+        border-bottom-right-radius: 12px !important;
+      }
+      /* Minimalist Drop Zone */
+      .drop-zone {
+        background-color: var(--editor-bg) !important;
+        border: 1px dashed #3f3f46 !important;
+        border-radius: 10px !important;
+        transition: border-color 0.2s ease, background-color 0.2s ease;
+      }
+      .drop-zone:hover, .drop-zone.border-warning {
+        border-color: var(--accent-emerald) !important;
+        background-color: #0c0c0e !important;
+      }
+      /* Code Editor Container */
+      textarea, pre code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+      }
+      textarea.form-control {
+        background-color: var(--editor-bg) !important;
+        color: #ffffff !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 8px !important;
+      }
+      textarea.form-control:focus {
+        border-color: var(--accent-emerald) !important;
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25) !important;
+      }
+      /* High contrast visible inner placeholders */
+      input::placeholder, textarea::placeholder {
+        color: #a1a1aa !important;
+        opacity: 1 !important;
+        font-weight: 500 !important;
+      }
+      .btn-emerald {
+        background-color: var(--accent-emerald);
+        color: #000000;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+      }
+      .btn-emerald:hover {
+        background-color: var(--accent-emerald-hover);
+        color: #ffffff;
+      }
+      .btn-outline-zinc {
+        background-color: transparent;
+        color: #e4e4e7;
+        border: 1px solid #3f3f46;
+        border-radius: 8px;
+      }
+      .btn-outline-zinc:hover {
+        background-color: #27272a;
+        color: #ffffff;
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent-emerald) !important;
+        outline-offset: 2px !important;
+      }
+      /* Custom Scrollbars */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-main);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #3f3f46;
+      }
+      /* === 2026 update! === */
+    </style>
+    <!-- === 2026 update! === -->
 
     <meta name="google-site-verification" content="np5ojf-dPtE5Vyp3c564lJst6JoRIQas4lvr1MPBC8A" />
 </head>
-    <body>
+<body>
 
-      <!-- Google Tag Manager (noscript) -->
+  <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NHPRCZ45"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
-  
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <!-- <div class="container-fluid"> -->
-          <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto mb-5 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link         {% block active %}
-      
-    {% endblock active %} mx-2" aria-current="page" href="/">CloudText</a>
-              </li>
-              <!-- <li class="nav-item">
-                <a class="nav-link active" href="/save/">Save</a>
-              </li> -->
-              <!-- <li class="nav-item">
-                <a class="nav-link active" href="/get/">Get</a>
-              </li> -->
-              <li class="nav-item">
-                <a class="nav-link  {% block aboutt %}{% endblock aboutt %}" aria-current="page" href="/about/">About</a>
-              </li>
-            </ul>
-            <span class="navbar-text mx-2">
-              Type your code here
-            </span>
+  <!-- === 2026 update! Option 2: Vercel / Apple Minimalist Navbar === -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top py-2" role="navigation" aria-label="Main Navigation">
+      <div class="container px-3">
+        <a class="navbar-brand fs-5 me-2 me-lg-4 d-flex align-items-center" href="/">
+          <span class="badge bg-white text-dark me-2 px-2 py-1 fs-6">CT</span> <span class="d-none d-sm-inline">CloudText</span>
+        </a>
+
+        <!-- Retrieve Bar: ALWAYS VISIBLE ON ALL SCREENS (outside collapse) -->
+        <form method="post" action="/get/" class="d-flex me-2 my-0" role="search" aria-label="Retrieve item by code" style="flex: 1; max-width: 270px;">
+          {% csrf_token %}
+          <div class="input-group input-group-sm w-100">
+            <input class="form-control bg-dark text-white border-secondary rounded-start font-monospace px-2" type="search" placeholder="Search with code" aria-label="Enter 4-Digit Unique Code to Search" name="query" id="query" maxlength="6" required>
+            <button class="btn btn-emerald px-3" type="submit">Retrieve</button>
           </div>
-          <form method="post" action="/get/" class="d-flex ms-auto mx-3">
-            {% csrf_token %}
-            <input class="form-control mr-sm-50" type="search" placeholder="Search" aria-label="Search" name="query" id="query">
-            <button class="btn btn-outline-success my-2 my-sm-0 mx-2" type="submit">Search</button>
-            
-            <a href="https://www.linkedin.com/in/debanjan-bhattacharjee-939400224" class="fa-brands fa-linkedin fa-xl" style="color: #1a63e0;" target="_blank"></a>
-
         </form>
-        <!-- </div> -->
-      </nav>
 
-      {% if val > 0 %}  
-          
-      {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-          <strong>Amigos! </strong>Your code is <strong>{{uuid}}</strong>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-        {% endfor %}
-      {% endif %}
-      {% endif %}
+        <button class="navbar-toggler border-0 p-1 ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+            <li class="nav-item">
+              <a class="nav-link {% block active %}{% endblock active %} px-3" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% block aboutt %}{% endblock aboutt %} px-3" href="/about/">About</a>
+            </li>
+            <li class="nav-item">
+              <a href="https://www.linkedin.com/in/debanjan-bhattacharjee-939400224" class="nav-link px-3 text-white-50 fs-5" target="_blank" aria-label="LinkedIn Profile" title="LinkedIn Profile">
+                <i class="fa-brands fa-linkedin"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- === 2026 update! === -->
 
-      <!-- For Error Messages in search view -->
-      {% if val2 > 0 %}  
-      
-      {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-          <strong>Invalid Code</strong>  Enter your 4 Digit Unique Code
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-        {% endfor %}
-      {% endif %}
-      {% endif %}
+    <!-- === 2026 update! Global Message Alerts === -->
+    {% if messages %}
+      {% for message in messages %}
+      <div class="container mt-3">
+        {% if val > 0 %}
+          <div class="alert alert-success alert-dismissible fade show text-center shadow fs-5" role="alert">
+            <i class="fa-solid fa-circle-check me-2"></i><strong>Amigos! </strong>Your unique code is: 
+            <strong class="badge bg-dark fs-4 ms-2 px-3 py-2 text-warning font-monospace" id="generatedCode">{{uuid}}</strong>
+            
+            <button type="button" class="btn btn-sm btn-outline-warning ms-2 align-middle" onclick="copyGeneratedCode('{{uuid}}')" id="copyCodeBtn">
+              <i class="fa-solid fa-copy me-1"></i> Copy Code
+            </button>
 
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% else %}
+          <div class="alert alert-danger alert-dismissible fade show text-center shadow fs-5" role="alert">
+            <i class="fa-solid fa-triangle-exclamation me-2"></i>{{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    {% endif %}
+    <!-- === 2026 update! === -->
+
+    <!-- === 2026 update! Copy Generated Code Script === -->
+    <script>
+      function copyGeneratedCode(code) {
+        navigator.clipboard.writeText(code).then(() => {
+          const btn = document.getElementById('copyCodeBtn');
+          const orig = btn.innerHTML;
+          btn.innerHTML = '<i class="fa-solid fa-check me-1"></i> Copied!';
+          btn.classList.remove('btn-outline-warning');
+          btn.classList.add('btn-warning', 'text-dark');
+          setTimeout(() => {
+            btn.innerHTML = orig;
+            btn.classList.remove('btn-warning', 'text-dark');
+            btn.classList.add('btn-outline-warning');
+          }, 2000);
+        });
+      }
+    </script>
+    <!-- === 2026 update! === -->
 
 {% block body %}
-  
 {% endblock body %}
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<!-- === 2026 update! === -->
+<footer class="mt-auto py-3 text-center text-secondary border-top border-secondary">
+  <div class="container">
+    <small>&copy; 2026 CloudText &bull; Store and share text, code, files & folders effortlessly.</small>
+  </div>
+</footer>
 
-<!-- Loading bootstrap 5.3.0 via CDN -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>
-  // Set the interval to 14 minutes (840,000 milliseconds)
-  const reloadInterval = 840000;
+  document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre code').forEach((el) => {
+      hljs.highlightElement(el);
+    });
+  });
+</script>
+<!-- === 2026 update! === -->
 
-  // Function to reload the page
-  function reloadPage() {
-      location.reload();
-  }
-  // Set a timeout to call the reloadPage function after the specified interval
-  setTimeout(reloadPage, reloadInterval);
-  </script>
 </body>
 </html>
